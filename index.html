@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<script language="JavaScript" type="text/javascript" src='/marre-yo/js/jquery-2.1.4.js'></script>
+		<script language="JavaScript" type="text/javascript" src='/marre-yo/js/hero.js'></script>
+		<script language="JavaScript" type="text/javascript" src='/marre-yo/js/map.js'></script>
+		<script language="JavaScript" type="text/javascript" src='/marre-yo/js/heroCheck.js'></script>
+		<script language="JavaScript" type="text/javascript" src='/marre-yo/js/game.js'></script>
+	</head>
+	<body id="body">
+
+		<div id='hero'></div>
+		<div id='testObstacle'></div>
+
+
+		
+		<script>
+			$(document).ready(function()
+			{	
+				Game= new Game;
+				Game.gameStart();
+			});
+
+		</script>
+		<style>
+		#hero
+		{
+			width:64px;
+			height:64px;
+			background-image:url("img/mariosprite.png");
+			background-position:0px 64px;
+			overflow: hidden;
+			position:fixed;
+			top:300px;
+			margin-left:250px;
+		}
+		</style>
+
+	</body>
+<html>
