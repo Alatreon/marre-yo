@@ -9207,8 +9207,4 @@ if ( typeof noGlobal === strundefined ) {
 
 return jQuery;
 
-<<<<<<< HEAD
 }));
-=======
-}));
->>>>>>> 3489588837024f9933f5aaf6ccec1fa87674a3e5
