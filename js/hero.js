@@ -23,7 +23,10 @@ function Hero ()
 	this.heroFloorComp=0;
 	this.heroFloorCompBool=false;
 	/**/
+<<<<<<< HEAD
 	this.heroSize=64;
+=======
+>>>>>>> 3489588837024f9933f5aaf6ccec1fa87674a3e5
 }
 Hero.prototype =
 {
