@@ -10,6 +10,7 @@ Game.prototype=
 {
 	gameStart : function () 
 	{				
+		this.Hero.creatHero();
 		this.Map.creatObstacles();
 		this.Hero.heroMove();
 	}

@@ -1,7 +1,8 @@
 function Hero ()
 {
-	this.heroStyleTop = ($('#hero').css('top').replace(/[^-\d\.]/g, ''))*1;
-	this.heroStyleLeft = ($('#hero').css('margin-left').replace(/[^-\d\.]/g, ''))*1;
+	this.heroFloor=571;
+	this.heroStyleTop = this.heroFloor/*($('#hero').css('top').replace(/[^-\d\.]/g, ''))*1*/;
+	this.heroStyleLeft = 250/*($('#hero').css('margin-left').replace(/[^-\d\.]/g, ''))*1*/;
 	this.heroMoveLeftBool = true;
 	this.heroMoveRightBool = true;
 	this.heroMoveJumpBool = true;
@@ -19,7 +20,6 @@ function Hero ()
 	this.heroStyleTopVal=-2;
 	/**/
 	this.heroJumpSize=75;
-	this.heroFloor=300;
 	this.heroFloorComp=0;
 	this.heroFloorCompBool=false;
 	/**/
@@ -209,5 +209,22 @@ Hero.prototype =
 		{
 			self.heroMoveStop(evt);
 		});
-	}
+	},
+	creatHero : function ()
+	{
+		/*creation*/
+		var heroDiv = document.createElement('div');
+		/*stylisation*/
+		heroDiv.id='hero';
+	    heroDiv.style.position='fixed';
+		heroDiv.style.width='64px';
+	    heroDiv.style.height='64px';
+	    heroDiv.style.marginLeft='250px';
+	    heroDiv.style.top=this.heroFloor;   
+	    heroDiv.style.overflow='hidden';
+	    heroDiv.style.backgroundPosition='0px 64px';
+	    heroDiv.style.backgroundImage="url('img/mariosprite.png')";
+	    /*placement*/
+		document.body.appendChild(heroDiv);
+   	}
 }

@@ -53,7 +53,7 @@ HeroCheck.prototype=
 			Self.Hero.heroFloor=Self.Map.heroFloor;
 		}
 		/*MIDDLE*/
-		if(Self.Hero.heroStyleLeft>this.obstacleHoriSizeL && Self.Hero.heroStyleLeft<this.obstacleHoriSizeR)
+		if(Self.Hero.heroStyleLeft>this.obstacleHoriSizeL && Self.Hero.heroStyleLeft+2<this.obstacleHoriSizeR)
 		{
 			this.heroPosCheck='middle';
 			if(Self.Hero.heroStyleTop<this.obstacleHoriSizeB+2 && this.heroPosCheckV=='bot')
