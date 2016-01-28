@@ -1,17 +1,10 @@
 function Map ()
 {
-	this.heroFloor=Self.Hero.heroFloor;
+	this.heroFloor=600;
 	this.mapStart=(-Self.Hero.heroSize);
-	this.mapEnd=($('body').css('width').replace(/[^-\d\.]/g, ''))*1;
-	/*height*/
-	this.obstacleHoriSizeB = 25;
-	/*width*/
-	this.obstacleHoriSizeR = 100;
-	/*top*/
-	this.obstacleHoriSizeT = 520/*470bug*/;
-	/*left*/
-	this.obstacleHoriSizeL = 440;
-	this.obstacleArray = [[25,100,520,200],[25,100,520,440]];
+	this.bodyHeight=($('body').css('height').replace(/[^-\d\.]/g, ''))*1;
+	this.mapEnd=($('body').css('width').replace(/[^-\d\.]/g, ''))*1
+;	this.obstacleArray = [[25,100,450,275],[25,100,550,75],[25,100,475,475],[25,100,350,475],[25,100,150,25],[25,100,250,250],[25,100,550,675]];
 }
 Map.prototype = 
 {
@@ -30,7 +23,7 @@ Map.prototype =
 	{
 		var backgroundImage=document.body.style;
 		backgroundImage.backgroundImage="url(img/backgroundmin.png)";
-		backgroundImage.backgroundPosition='0px  -657px';/*-1034px -870px*/
+		backgroundImage.backgroundPosition='0px  -'+(this.bodyHeight-Self.Hero.heroSize)+'px';
 	},
 	creatObstacles : function ()
 	{
@@ -40,6 +33,7 @@ Map.prototype =
 		{
 			/*creation*/
 			var obstacle = document.createElement('div');
+			obstacle.setAttribute('id','obstacle'+i)
 			/*stylisation*/
 		    obstacle.style.position='fixed';
 		    obstacle.style.height=this.obstacleArray[i][0]+'px';

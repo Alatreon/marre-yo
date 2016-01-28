@@ -1,6 +1,6 @@
 function Hero ()
 {
-	this.heroFloor=571;
+	this.heroFloor=600;
 	this.heroStyleTop = this.heroFloor/*($('#hero').css('top').replace(/[^-\d\.]/g, ''))*1*/;
 	this.heroStyleLeft = 250/*($('#hero').css('margin-left').replace(/[^-\d\.]/g, ''))*1*/;
 	this.heroMoveLeftBool = true;
@@ -15,11 +15,12 @@ function Hero ()
 	this.heroMoveVal =2;
 	this.fallBool=false;
 	this.heroMoveJumpBoolInter = true;
+
 	this.heroMoveJumpBoolAnim=true;
 	this.heroStyleTopI=0;
 	this.heroStyleTopVal=-2;
 	/**/
-	this.heroJumpSize=75;
+	this.heroJumpSize=76;
 	this.heroFloorComp=0;
 	this.heroFloorCompBool=false;
 	/**/
@@ -89,12 +90,12 @@ Hero.prototype =
 		{	
 			this.heroLeftRight('left');
 			this.heroMoveLeftBool = false;
-			Self.HeroCheck.heroMapCheck('L');
+			Self.HeroCheck.heroMapCheck();
 			this.heroStyleLeft -= this.heroMoveVal;
 			$('#hero').css('margin-left', this.heroSytleLeft);	
 			this.heroMoveLeftInter = setInterval(function()
 			{
-				Self.HeroCheck.heroMapCheck('L');
+				Self.HeroCheck.heroMapCheck();
 				self.heroStyleLeft -= self.heroMoveVal;									
 				self.heroAnim('128px 64px','256px 64px');
 				$('#hero').css(
@@ -113,12 +114,12 @@ Hero.prototype =
 		{	
 			this.heroLeftRight('right');
 			this.heroMoveRightBool = false;
-			Self.HeroCheck.heroMapCheck('R');
+			Self.HeroCheck.heroMapCheck();
 			this.heroStyleLeft += this.heroMoveVal;
 			$('#hero').css('margin-left', this.heroStyleLeft);
 			this.heroMoveRightInter = setInterval(function()
 			{
-				Self.HeroCheck.heroMapCheck('R');
+				Self.HeroCheck.heroMapCheck();
 				self.heroAnim('-64px 64px','-192px 64px');
 				self.heroStyleLeft += self.heroMoveVal;
 				$('#hero').css(
@@ -136,18 +137,17 @@ Hero.prototype =
 		{
 			evt.keyCode=0;
 		}
-		if(evt.keyCode==32 && this.heroMoveJumpBool || evt.keyCode==90 && this.heroMoveJumpBool || this.fallBool)
+		if(evt.keyCode==32 && this.heroMoveJumpBool || evt.keyCode==90 && this.heroMoveJumpBool/* || this.fallBool*/)
 		{
 			this.heroFloorCompBool=true;
 			this.heroMoveJumpBool=false;
 			this.heroMoveJumpBoolAnim=false;
 			this.heroAnim();
-			Self.HeroCheck.heroMapCheckPos();
+			Self.HeroCheck.heroMapCheck();
 			this.heroMoveJumpInter = setInterval(
 				function()
 				{
-					Self.HeroCheck.heroMapCheckPos();
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool || Self.HeroCheck.jumpSizeBool || self.fallBool)
+					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool/*|| self.fallBool*/)
 					{
 						if(self.heroMoveAnimeLeRi=='right')
 						{
@@ -159,14 +159,15 @@ Hero.prototype =
 						}
 					}
 					$('#hero').css("background-position", self.heroMoveAnime);
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.jumpSizeBool || self.fallBool)
+					console.log(self.heroStyleTopI+'>'+self.heroJumpSize+' && '+self.heroMoveJumpBoolInter);
+					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter /*|| self.fallBool*/)
 					{
 						self.fallBool=false;
 						self.heroMoveJumpBoolInter=false;
 						self.heroMoveJumpBoolAnim=true;
 						self.heroStyleTopVal=self.heroStyleTopVal*(-1);
 					}
-					if(self.heroStyleTop>self.heroFloor)
+					if(self.heroStyleTop>self.heroFloor)	
 					{
 						self.heroStyleTopI=0;
 						self.heroStyleTop=self.heroFloor+self.heroStyleTopVal;
@@ -179,7 +180,7 @@ Hero.prototype =
 					self.heroStyleTopI+=1;
 					self.heroStyleTop=self.heroStyleTop+self.heroStyleTopVal;
 					$('#hero').css('top',self.heroStyleTop);
-					Self.HeroCheck.heroMapCheckPos();
+					Self.HeroCheck.heroMapCheck();
 				},1);
 		}
 	},

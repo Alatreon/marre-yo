@@ -1,107 +1,70 @@
 function HeroCheck ()
 {
-	this.heroPosCheck ='left';
-	this.heroPosCheckV = 'bot';
-	/*height+top*/
-	this.obstacleHoriSizeB = Self.Map.obstacleHoriSizeB+Self.Map.obstacleHoriSizeT;
-	/*width+left*/
-	this.obstacleHoriSizeR = Self.Map.obstacleHoriSizeR+Self.Map.obstacleHoriSizeL;
-	/*top*/
-	this.obstacleHoriSizeT = Self.Map.obstacleHoriSizeT;
-	/*left-herosize*/
-	this.obstacleHoriSizeL = Self.Map.obstacleHoriSizeL-Self.Hero.heroSize;
+	this.boolCheck=true;
 	this.jumpSizeBool=false;
+	this.colisionBorder=3;
 }
 
 HeroCheck.prototype=
 {
-	heroMapCheckPos : function ()
+	heroMapCheck : function ()
 	{
-		this.heroMapCheckHorizontal();
-		this.heroMapCheckVertical();
-		Self.Map.mapScroll();
-	},
-	heroMapCheckVertical : function ()
-	{
-		/*TOP*/
-		if(Self.Hero.heroStyleTop+Self.Hero.heroSize<this.obstacleHoriSizeT)
+		/* Ajouter une boucle de colision et des que qq rentre en colision noter l'id de l'obstacle et l'utiliser ici*/
+
+		for(var i=0;i<Self.Map.obstacleArray.length;i++)
 		{
-			this.heroPosCheckV='top';
-		}
-		/*MIDDLEL*/
-		if(Self.Hero.heroStyleTop+Self.Hero.heroSize-2>this.obstacleHoriSizeT && Self.Hero.heroStyleTop+Self.Hero.heroSize<this.obstacleHoriSizeB+Self.Hero.heroSize)
-		{
-			this.heroPosCheckV='middleL';
-		}
-		/*BOT*/
-		if(Self.Hero.heroStyleTop+Self.Hero.heroSize>this.obstacleHoriSizeB+Self.Hero.heroSize)
-		{
-			this.heroPosCheckV='bot';
+			var hero = {x: Self.Hero.heroStyleLeft, y: Self.Hero.heroStyleTop, width: Self.Hero.heroSize, height: Self.Hero.heroSize};
+			var rect = {x: Self.Map.obstacleArray[i][3], y: Self.Map.obstacleArray[i][2], width: Self.Map.obstacleArray[i][1], height: Self.Map.obstacleArray[i][0]};
+
+			if (hero.x - this.colisionBorder < rect.x + rect.width && hero.x + hero.width + this.colisionBorder > rect.x && hero.y - this.colisionBorder < rect.y + rect.height && hero.height + hero.y + this.colisionBorder > rect.y)
+			{
+				this.colCheck(i,hero,rect);
+			}
 		}
 	},
-	heroMapCheckHorizontal : function ()
+	colCheck : function (i,hero,rect)
 	{
-		/*LEFT*/
-		if(Self.Hero.heroStyleLeft<this.obstacleHoriSizeL && Self.Hero.heroStyleLeft<this.obstacleHoriSizeR)
-		{
-			if(this.heroPosCheck=='middle' && this.heroPosCheckV=='top' && Self.Hero.heroMoveJumpBool)
+			if (hero.x < rect.x + rect.width && hero.x + hero.width > rect.x && hero.y < rect.y + rect.height && hero.height + hero.y > rect.y && this.boolCheck)
 			{
-				Self.Hero.fallBool=true;
-				Self.Hero.heroJump(0);
+				this.boolCheck=false;
+				/*gauche vers la droite*/
+				if((hero.x + Self.Hero.heroSize)-this.colisionBorder < rect.x)
+				{
+					Self.Hero.heroMoveVal=0;
+				}
+				/*droite vers la gauche*/
+				if(hero.x + this.colisionBorder > rect.x + rect.width)
+				
+{					Self.Hero.heroMoveVal=0;
+				}
+				/*top*/
+				if((hero.y + hero.height) - this.colisionBorder < rect.y)
+				{
+					Self.Hero.heroFloor=(rect.y - hero.height);
+					Self.Hero.heroMoveVal=2; 
+				}
+				/*bot*/
+				if(hero.y + this.colisionBorder > rect.y + rect.height)
+				{
+					Self.Hero.heroJumpSize=rect.y + rect.height - hero.y;
+					Self.Hero.heroMoveVal=2;
+				}
 			}
-			this.heroPosCheck='left';
-			Self.Hero.heroFloor=Self.Map.heroFloor;
-		}
-		/*MIDDLE*/
-		if(Self.Hero.heroStyleLeft>this.obstacleHoriSizeL && Self.Hero.heroStyleLeft+2<this.obstacleHoriSizeR)
-		{
-			this.heroPosCheck='middle';
-			if(Self.Hero.heroStyleTop<this.obstacleHoriSizeB+2 && this.heroPosCheckV=='bot')
+
+			//reinitialisation
+			
+			if ((hero.x + Self.Hero.heroSize) < rect.x || hero.x > rect.x + rect.width || (hero.y + hero.height) < rect.y || hero.y > rect.y + rect.height)
 			{
-				this.jumpSizeBool=true;
-			}
-			else
-			{
+				this.boolCheck=true;
+				Self.Hero.heroMoveVal=2;
+				Self.Hero.heroFloor=Self.Map.heroFloor;
+				Self.Hero.heroJumpSize=76;
 				this.jumpSizeBool=false;
 			}
-			if(this.heroPosCheckV=='bot'){Self.Hero.heroFloor=Self.Map.heroFloor;}
-			if(this.heroPosCheckV=='top'){Self.Hero.heroFloor=this.obstacleHoriSizeT-Self.Hero.heroSize;}
-		}
-		/*RIGHT*/
-		if(Self.Hero.heroStyleLeft>this.obstacleHoriSizeL+2 && Self.Hero.heroStyleLeft>this.obstacleHoriSizeR)
-		{
-			if(this.heroPosCheck=='middle' && this.heroPosCheckV=='top' && Self.Hero.heroMoveJumpBool)
-			{
-				Self.Hero.fallBool=true;
-				Self.Hero.heroJump(0);
-			}
-			this.heroPosCheck='right';
-			Self.Hero.heroFloor=Self.Map.heroFloor;
-		}
+
 	},
-	heroMapCheck : function (e)
+	heroColCheck : function (i,hero,rect)
 	{
-		this.heroMapCheckPos();
-		if(e=='R')
-		{
-			if(this.heroPosCheck=='left' && Self.Hero.heroStyleLeft>this.obstacleHoriSizeL-4 && this.heroPosCheckV=='middleL')
-			{
-				Self.Hero.heroMoveVal=0;
-			}
-			else
-			{
-				Self.Hero.heroMoveVal=2;
-			}}
-		if(e=='L')
-		{
-			if(this.heroPosCheck=='right' && Self.Hero.heroStyleLeft<this.obstacleHoriSizeR+1 && this.heroPosCheckV=='middleL')
-			{
-				Self.Hero.heroMoveVal=0;
-			}
-			else
-			{
-				Self.Hero.heroMoveVal=2;
-			}
-		}
+
 	}
 }
