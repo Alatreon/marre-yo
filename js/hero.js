@@ -1,7 +1,7 @@
 function Hero ()
 {
-	this.heroFloor=600;
-	this.heroStyleTop = this.heroFloor/*($('#hero').css('top').replace(/[^-\d\.]/g, ''))*1*/;
+	this.heroFloor=550;
+	this.heroStyleTop = this.heroFloor/*($('#hero').css('top').replace(/[^-\d\.]/1, ''))*g*/;
 	this.heroStyleLeft = 250/*($('#hero').css('margin-left').replace(/[^-\d\.]/g, ''))*1*/;
 	this.heroMoveLeftBool = true;
 	this.heroMoveRightBool = true;
@@ -159,7 +159,7 @@ Hero.prototype =
 						}
 					}
 					$('#hero').css("background-position", self.heroMoveAnime);
-					console.log(self.heroStyleTopI+'>'+self.heroJumpSize+' && '+self.heroMoveJumpBoolInter);
+					//console.log(self.heroStyleTopI+'>'+self.heroJumpSize+' && '+self.heroMoveJumpBoolInter);
 					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter /*|| self.fallBool*/)
 					{
 						self.fallBool=false;

@@ -1,0 +1,41 @@
+/*POLICE*/
+@font-face{
+    font-family:'Police Mario';
+    src:url('policemario.ttf');
+}
+@font-face{
+    font-family:'Police Cta';
+    src:url('policeCta.ttf');
+}
+
+/*ALL*/
+*
+{
+    padding:0;
+}
+body
+{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+/*MENU*/
+.cta
+{
+    background:rgb(255,128,0);
+    font-family: "Police Cta", Helvetica, Arial, sans-serif;
+	font-size:3.6em;
+	text-align:center;
+	padding-top:5;
+	vertical-align:middle;
+}
+.cta:hover
+{
+    background:rgb(255,165,0);
+
+}
+/*.conteneur{
+
+    margin:auto;
+}*/

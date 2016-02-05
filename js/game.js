@@ -1,16 +1,18 @@
 function Game ()
 {	
-	Self = this;		
+	Self = this;
+	this.Menu = new Menu;
+	this.KeyboardKey = new KeyboardKey;
 	this.Hero = new Hero;
 	this.Map = new Map;
 	this.HeroCheck = new HeroCheck;
-	this.Menu = new Menu;
 }
 Game.prototype=
 {
-	startMenu : function ()
+	startStartMenu : function ()
 	{
 		this.Menu.startMenu();
+		this.KeyboardKey.actionKeys();
 	},
 	gameStart : function () 
 	{
