@@ -26,8 +26,8 @@ body
     background:rgb(255,128,0);
     font-family: "Police Cta", Helvetica, Arial, sans-serif;
 	font-size:3.6em;
+    padding-top:5;
 	text-align:center;
-	padding-top:5;
 	vertical-align:middle;
 }
 .cta:hover

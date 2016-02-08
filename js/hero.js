@@ -76,14 +76,14 @@ Hero.prototype =
 			}
 		}
 	},
-	heroMoveFunc : function (evt)
+	heroMoveFunc : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
 		this.heroLeft(evt);
 		this.heroRight(evt);
 		this.heroJump(evt);
 	},
-	heroLeft : function (evt)
+	heroLeft : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
 		if(evt.keyCode==81 && this.heroMoveLeftBool)
@@ -107,7 +107,7 @@ Hero.prototype =
 		}
 
 	},
-	heroRight : function (evt)
+	heroRight : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
 		if(evt.keyCode==68 && this.heroMoveRightBool)
@@ -130,14 +130,14 @@ Hero.prototype =
 			},5);
 		}
 	},
-	heroJump : function (evt)
+	heroJump : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
 		if( !typeof(evt.keyCode) == 'number' )
 		{
 			evt.keyCode=0;
 		}
-		if(evt.keyCode==32 && this.heroMoveJumpBool || evt.keyCode==90 && this.heroMoveJumpBool/* || this.fallBool*/)
+		if(evt.keyCode==32 && this.heroMoveJumpBool || evt.keyCode==90 && this.heroMoveJumpBool || Self.HeroCheck.fallBool)
 		{
 			this.heroFloorCompBool=true;
 			this.heroMoveJumpBool=false;
@@ -147,7 +147,7 @@ Hero.prototype =
 			this.heroMoveJumpInter = setInterval(
 				function()
 				{
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool/*|| self.fallBool*/)
+					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool|| Self.HeroCheck.fallBool)
 					{
 						if(self.heroMoveAnimeLeRi=='right')
 						{
@@ -160,9 +160,9 @@ Hero.prototype =
 					}
 					$('#hero').css("background-position", self.heroMoveAnime);
 					//console.log(self.heroStyleTopI+'>'+self.heroJumpSize+' && '+self.heroMoveJumpBoolInter);
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter /*|| self.fallBool*/)
+					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.fallBool)
 					{
-						self.fallBool=false;
+						Self.HeroCheck.fallBool=false;
 						self.heroMoveJumpBoolInter=false;
 						self.heroMoveJumpBoolAnim=true;
 						self.heroStyleTopVal=self.heroStyleTopVal*(-1);
@@ -184,7 +184,7 @@ Hero.prototype =
 				},1);
 		}
 	},
-	heroMoveStop : function (evt)
+	heroMoveStop : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		if(evt.keyCode==68 && !this.heroMoveRightBool)
 		{
@@ -199,7 +199,7 @@ Hero.prototype =
 			this.heroMoveLeftBool=true;
 		}
 	},
-	heroMove : function()
+	heroMove : function()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
 		$(document).bind('keydown', function(evt)
