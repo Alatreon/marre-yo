@@ -29,8 +29,7 @@ KeyboardKey.prototype=
 					}
 					else
 					{
-						self.menuEchape=true;	
-						console.log("r")
+						self.menuEchape=true;
 						Self.Menu.destroyMenu();
 					}
 				}	

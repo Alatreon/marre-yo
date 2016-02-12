@@ -1,11 +1,11 @@
-function Map ()
+function Map (i)
 {
-	this.heroFloor=550;
+	this.heroFloor=544;
 	this.mapStart=(-Self.Hero.heroSize);
 	this.bodyHeight=($('body').css('height').replace(/[^-\d\.]/g, ''))*1;
 	this.mapEnd=($('body').css('width').replace(/[^-\d\.]/g, ''))*1;
 	this.heroFloorDiv=this.bodyHeight-(this.heroFloor+Self.Hero.heroSize);
-;	this.obstacleArray = [[25,100,450,275],[25,100,500,75],[25,100,475,475],[25,100,350,475],[25,100,150,25],[25,100,250,250],[25,100,150,675]];
+	this.obstacleArray = i;
 }
 Map.prototype = 
 {
@@ -40,25 +40,69 @@ Map.prototype =
 	    /*placement*/
 		document.body.appendChild(bottomBackgroundDiv);
 	},
-	creatObstacles : function ()
+	creatMap : function ()
 	{
-		this.backgroundStyle();
-
-		for(var i=0;i<this.obstacleArray.length;i++)
+		for(var i=0;i<Self.Map.obstacleArray.length;i++)
 		{
-			/*creation*/
-			var obstacle = document.createElement('div');
-			obstacle.setAttribute('id','obstacle'+i);
-			/*stylisation*/
-		    obstacle.style.position='absolute';
-		    obstacle.style.height=this.obstacleArray[i][0]+'px';
-	    	obstacle.style.width=this.obstacleArray[i][1]+'px';
-		    obstacle.style.marginTop=(this.obstacleArray[i][2]-8)+'px';/*-8 suite a la stylisation de la div hero et de la div obstacle en js*/  
-		    obstacle.style.marginLeft=this.obstacleArray[i][3]+'px'; 
-		    obstacle.style.borderRadius='5px';
-		    obstacle.style.backgroundColor='brown';
-		    /*placement*/
-	    	document.body.appendChild(obstacle);
-    	}
-   	}
+			if(Self.Map.obstacleArray[i][4]==0)
+			{
+				this.creatObstacles(i);
+			}
+			if(Self.Map.obstacleArray[i][4]==1)
+			{
+				this.creatGold(i);
+			}
+		}
+		this.creatGoldAnim();
+	},
+	creatObstacles : function (i)
+	{
+		/*creation*/
+		var obstacle = document.createElement('div');
+		obstacle.setAttribute('id','obstacle'+i);
+		/*stylisation*/
+		obstacle.style.position='absolute';
+		obstacle.style.height=this.obstacleArray[i][0]+'px';
+	    obstacle.style.width=this.obstacleArray[i][1]+'px';
+		obstacle.style.marginTop=(this.obstacleArray[i][2]-8)+'px';/*-8 suite a la stylisation de la div hero et de la div obstacle en js*/  
+		obstacle.style.marginLeft=this.obstacleArray[i][3]+'px'; 
+		obstacle.style.backgroundImage="url(img/brick.png)";
+		/*placement*/
+	    document.body.appendChild(obstacle);
+   	},
+	creatGold : function (i)
+	{
+		var gold = document.createElement('div');
+		gold.setAttribute('id','gold'+i);
+		gold.setAttribute('class','gold');
+		/*stylisation*/
+		gold.style.position='absolute';
+		gold.style.height=this.obstacleArray[i][0]+'px';
+	    gold.style.width=this.obstacleArray[i][1]+'px';
+		gold.style.marginTop=(this.obstacleArray[i][2]-8)+'px';/*-8 suite a la stylisation de la div hero et de la div obstacle en js*/  
+		gold.style.marginLeft=this.obstacleArray[i][3]+'px';
+		gold.style.backgroundImage="url(img/gold.png)";
+		/*placement*/
+	    document.body.appendChild(gold);
+	},
+	creatGoldAnim : function (i)
+	{
+	    var y=0;
+	    var yCheck=1;
+
+	    setInterval(function()
+	    {
+	    	y+=32*yCheck;
+	    	if(y>63)
+	    	{
+	    		yCheck=-1;
+	    	}
+	    	if(y<1)
+	    	{
+	    		y=0;
+	    		yCheck=1;
+	    	}
+	    	$('.gold').css("background-position", -y+"px 0px");
+	    },300);		
+	}
 }

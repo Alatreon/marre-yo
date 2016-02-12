@@ -27,35 +27,9 @@ function Hero ()
 	this.heroSize=64;
 	/*gold*/
 	this.gold=0;
-	/*vie*/
-	this.life=3;
-	this.heroInvincibilityBool=false;
-	this.invincInter=0;
-	/*stopmove*/
-	this.heroMoveBindDown=0;
-	this.heroMoveBindUp=0;
-	/*scoremob*/
-	this.combo=0;
 }
 Hero.prototype =
 {
-	creatHero : function ()
-	{
-		/*creation*/
-		var heroDiv = document.createElement('div');
-		/*stylisation*/
-		heroDiv.id='hero';
-	    heroDiv.style.position='fixed';
-		heroDiv.style.width='64px';
-	    heroDiv.style.height='64px';
-	    heroDiv.style.marginLeft='250px';
-	    heroDiv.style.top=this.heroFloor;   
-	    heroDiv.style.overflow='hidden';
-	    heroDiv.style.backgroundPosition='0px 64px';
-	    heroDiv.style.backgroundImage="url('img/mariosprite.png')";
-	    /*placement*/
-		document.body.appendChild(heroDiv);
-   	},
 	heroAnim : function (move1, move2)
 	{
 		if(!this.heroMoveJumpBoolAnim)
@@ -118,19 +92,19 @@ Hero.prototype =
 		{	
 			this.heroLeftRight('left');
 			this.heroMoveLeftBool = false;
+			Self.HeroCheck.heroMapCheck();
 			this.heroStyleLeft -= this.heroMoveVal;
 			$('#hero').css('margin-left', this.heroSytleLeft);	
-			Self.HeroCheck.heroMapCheck();
 			this.heroMoveLeftInter = setInterval(function()
 			{
+				Self.HeroCheck.heroMapCheck();
 				self.heroStyleLeft -= self.heroMoveVal;									
 				self.heroAnim('128px 64px','256px 64px');
 				$('#hero').css(
 				{
 					'margin-left': self.heroStyleLeft,
 					"background-position": self.heroMoveAnime
-				});		
-				Self.HeroCheck.heroMapCheck();				
+				});						
 			},5);
 		}
 
@@ -142,11 +116,12 @@ Hero.prototype =
 		{	
 			this.heroLeftRight('right');
 			this.heroMoveRightBool = false;
+			Self.HeroCheck.heroMapCheck();
 			this.heroStyleLeft += this.heroMoveVal;
 			$('#hero').css('margin-left', this.heroStyleLeft);
-			Self.HeroCheck.heroMapCheck();
 			this.heroMoveRightInter = setInterval(function()
 			{
+				Self.HeroCheck.heroMapCheck();
 				self.heroAnim('-64px 64px','-192px 64px');
 				self.heroStyleLeft += self.heroMoveVal;
 				$('#hero').css(
@@ -154,7 +129,6 @@ Hero.prototype =
 					'margin-left': self.heroStyleLeft,
 					'background-position': self.heroMoveAnime
 				});
-				Self.HeroCheck.heroMapCheck();
 			},5);
 		}
 	},
@@ -186,10 +160,8 @@ Hero.prototype =
 							self.heroMoveAnime='64px 64px';
 						}
 					}
-					if(self.life>0)
-					{
-						$('#hero').css("background-position", self.heroMoveAnime);
-					}
+					$('#hero').css("background-position", self.heroMoveAnime);
+					//console.log(self.heroStyleTopI+'>'+self.heroJumpSize+' && '+self.heroMoveJumpBoolInter);
 					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.fallBool)
 					{
 						Self.HeroCheck.fallBool=false;
@@ -214,28 +186,19 @@ Hero.prototype =
 				},1);
 		}
 	},
-	heroMoveStop : function (evt,stop)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroMoveStop : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
-		if( !typeof(evt.keyCode) == 'number' )
-		{
-			evt.keyCode=0;
-		}
-			if(evt.keyCode==68 && !this.heroMoveRightBool)
-			{
-				clearInterval(this.heroMoveRightInter);
-				$('#hero').css('background-position', '0px 64px');
-				this.heroMoveRightBool=true;
-			}
-			if(evt.keyCode==81 && !this.heroMoveLeftBool)
-			{
-				clearInterval(this.heroMoveLeftInter);
-				$('#hero').css('background-position', '64px 64px');
-				this.heroMoveLeftBool=true;
-			}
-		if(this.life<1)
+		if(evt.keyCode==68 && !this.heroMoveRightBool)
 		{
 			clearInterval(this.heroMoveRightInter);
+			$('#hero').css('background-position', '0px 64px');
+			this.heroMoveRightBool=true;
+		}
+		if(evt.keyCode==81 && !this.heroMoveLeftBool)
+		{
 			clearInterval(this.heroMoveLeftInter);
+			$('#hero').css('background-position', '64px 64px');
+			this.heroMoveLeftBool=true;
 		}
 	},
 	heroMove : function()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
@@ -250,48 +213,21 @@ Hero.prototype =
 			self.heroMoveStop(evt);
 		});
 	},
-	heroKillMob : function ()
+	creatHero : function ()
 	{
-		if(this.life>0)
-		{
-			$('#hero').css("background-position","384px 64px")/*.animate(
-				{top:"-=20"},500,function(){
-				})*/;
-		}
-	},
-	heroInvincibility : function ()
-	{
-		self=this;
-		this.heroInvincibilityBool = true;
-		var i = 0;
-	   	if(this.life>0)
-		{
-		   	this.invincInter = setInterval(
-		   	function()
-		   	{
-		   		if(i%2==1){$('#hero').css("opacity","1");}
-		   		if(i%2==0){$('#hero').css("opacity","0.5");}
-		   		if(i>25)
-		   		{
-		   			Self.Hero.heroInvincibilityBool = false;
-		   			$('#hero').css("opacity","1");
-					clearInterval(Self.Hero.invincInter);
-		   		}
-		   		i+=1;
-		   	},50);
-		}
-	},
-	heroDie : function ()
-	{
-		if(this.life<1)
-		{
-			$(document).off();
-			this.heroMoveStop(0);
-			$('#hero').css("background-position","448px 64px").delay(150).animate(
-				{top:"-=100"},500,function()
-				{
-					$(this).animate({top:"+=300"},600);}
-				);
-		}
-	}
+		/*creation*/
+		var heroDiv = document.createElement('div');
+		/*stylisation*/
+		heroDiv.id='hero';
+	    heroDiv.style.position='fixed';
+		heroDiv.style.width='64px';
+	    heroDiv.style.height='64px';
+	    heroDiv.style.marginLeft='250px';
+	    heroDiv.style.top=this.heroFloor;   
+	    heroDiv.style.overflow='hidden';
+	    heroDiv.style.backgroundPosition='0px 64px';
+	    heroDiv.style.backgroundImage="url('img/mariosprite.png')";
+	    /*placement*/
+		document.body.appendChild(heroDiv);
+   	}
 }
