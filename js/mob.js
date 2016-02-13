@@ -63,9 +63,10 @@ Mob.prototype =
 		{
 			$('#mob'+i).css("background-position", "-64px -32px")
 			clearInterval(this.setAnim[i]);
-				setTimeout(function()
-				{
-					$('#mob'+i).css("background-position", "-896px -32px")
-				},500);}
+			setTimeout(function()
+			{
+				$('#mob'+i).css("background-position", "-896px -32px")
+			},500);
 		}
+	}
 }

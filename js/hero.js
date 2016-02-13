@@ -56,7 +56,7 @@ Hero.prototype =
 	    /*placement*/
 		document.body.appendChild(heroDiv);
    	},
-	heroAnim : function (move1, move2)
+	heroAnim : function (move1, move2)/*FAIRE UN SWITCH AVEC LES DIFFERENTE ANIM : SAUT,GAUCHE,DROITE,MARCHE,MORT,*/
 	{
 		if(!this.heroMoveJumpBoolAnim)
 		{
@@ -104,134 +104,109 @@ Hero.prototype =
 			}
 		}
 	},
-	heroMoveFunc : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroLeft : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
-		this.heroLeft(evt);
-		this.heroRight(evt);
-		this.heroJump(evt);
-	},
-	heroLeft : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
-	{
-		var self=this;
-		if(evt.keyCode==81 && this.heroMoveLeftBool)
-		{	
-			this.heroLeftRight('left');
-			this.heroMoveLeftBool = false;
-			this.heroStyleLeft -= this.heroMoveVal;
-			$('#hero').css('margin-left', this.heroSytleLeft);	
-			Self.HeroCheck.heroMapCheck();
-			this.heroMoveLeftInter = setInterval(function()
-			{
-				self.heroStyleLeft -= self.heroMoveVal;									
-				self.heroAnim('128px 64px','256px 64px');
-				$('#hero').css(
-				{
-					'margin-left': self.heroStyleLeft,
-					"background-position": self.heroMoveAnime
-				});		
-				Self.HeroCheck.heroMapCheck();				
-			},5);
-		}
-
-	},
-	heroRight : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
-	{
-		var self=this;
-		if(evt.keyCode==68 && this.heroMoveRightBool)
-		{	
-			this.heroLeftRight('right');
-			this.heroMoveRightBool = false;
-			this.heroStyleLeft += this.heroMoveVal;
-			$('#hero').css('margin-left', this.heroStyleLeft);
-			Self.HeroCheck.heroMapCheck();
-			this.heroMoveRightInter = setInterval(function()
-			{
-				self.heroAnim('-64px 64px','-192px 64px');
-				self.heroStyleLeft += self.heroMoveVal;
-				$('#hero').css(
-				{
-					'margin-left': self.heroStyleLeft,
-					'background-position': self.heroMoveAnime
-				});
-				Self.HeroCheck.heroMapCheck();
-			},5);
-		}
-	},
-	heroJump : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
-	{
-		var self=this;
-		if( !typeof(evt.keyCode) == 'number' )
+		this.heroLeftRight('left');
+		this.heroMoveLeftBool = false;
+		this.heroStyleLeft -= this.heroMoveVal;
+		$('#hero').css('margin-left', this.heroSytleLeft);	
+		Self.HeroCheck.heroMapCheck();
+		this.heroMoveLeftInter = setInterval(function()
 		{
-			evt.keyCode=0;
-		}
-		if(evt.keyCode==32 && this.heroMoveJumpBool || evt.keyCode==90 && this.heroMoveJumpBool || Self.HeroCheck.fallBool)
-		{
-			this.heroFloorCompBool=true;
-			this.heroMoveJumpBool=false;
-			this.heroMoveJumpBoolAnim=false;
-			this.heroAnim();
-			Self.HeroCheck.heroMapCheck();
-			this.heroMoveJumpInter = setInterval(
-				function()
-				{
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool|| Self.HeroCheck.fallBool)
-					{
-						if(self.heroMoveAnimeLeRi=='right')
-						{
-							self.heroMoveAnime='0px 64px';
-						}
-						else
-						{
-							self.heroMoveAnime='64px 64px';
-						}
-					}
-					if(self.life>0)
-					{
-						$('#hero').css("background-position", self.heroMoveAnime);
-					}
-					if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.fallBool)
-					{
-						Self.HeroCheck.fallBool=false;
-						self.heroMoveJumpBoolInter=false;
-						self.heroMoveJumpBoolAnim=true;
-						self.heroStyleTopVal=self.heroStyleTopVal*(-1);
-					}
-					if(self.heroStyleTop>self.heroFloor)	
-					{
-						self.heroStyleTopI=0;
-						self.heroStyleTop=self.heroFloor+self.heroStyleTopVal;
-						self.heroMoveJumpBool=true;
-						self.heroFloorCompBool=true;
-						self.heroMoveJumpBoolInter=true;
-						self.heroStyleTopVal=self.heroStyleTopVal*(-1);
-						clearInterval(self.heroMoveJumpInter);
-					}
-					self.heroStyleTopI+=1;
-					self.heroStyleTop=self.heroStyleTop+self.heroStyleTopVal;
-					$('#hero').css('top',self.heroStyleTop);
-					Self.HeroCheck.heroMapCheck();
-				},1);
-		}
-	},
-	heroMoveStop : function (evt,stop)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
-	{
-		if( !typeof(evt.keyCode) == 'number' )
-		{
-			evt.keyCode=0;
-		}
-			if(evt.keyCode==68 && !this.heroMoveRightBool)
+			self.heroStyleLeft -= self.heroMoveVal;									
+			self.heroAnim('128px 64px','256px 64px');
+			$('#hero').css(
 			{
-				clearInterval(this.heroMoveRightInter);
-				$('#hero').css('background-position', '0px 64px');
-				this.heroMoveRightBool=true;
+				'margin-left': self.heroStyleLeft,
+				"background-position": self.heroMoveAnime
+			});		
+			Self.HeroCheck.heroMapCheck();				
+		},5);
+	},
+	heroRight : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	{
+		var self=this;
+		this.heroLeftRight('right');
+		this.heroMoveRightBool = false;
+		this.heroStyleLeft += this.heroMoveVal;
+		$('#hero').css('margin-left', this.heroStyleLeft);
+		Self.HeroCheck.heroMapCheck();
+		this.heroMoveRightInter = setInterval(function()
+		{
+			self.heroAnim('-64px 64px','-192px 64px');
+			self.heroStyleLeft += self.heroMoveVal;
+			$('#hero').css(
+			{
+				'margin-left': self.heroStyleLeft,
+				'background-position': self.heroMoveAnime
+			});
+			Self.HeroCheck.heroMapCheck();
+		},5);
+	},
+	heroJump : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	{
+		var self=this;
+		this.heroFloorCompBool=true;
+		this.heroMoveJumpBool=false;
+		this.heroMoveJumpBoolAnim=false;
+		this.heroAnim();
+		Self.HeroCheck.heroMapCheck();
+		this.heroMoveJumpInter = setInterval(
+		function()
+		{
+			if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool|| Self.HeroCheck.fallBool)
+			{
+				if(self.heroMoveAnimeLeRi=='right')
+				{
+					self.heroMoveAnime='0px 64px';
+				}
+				else
+				{
+					self.heroMoveAnime='64px 64px';
+				}
 			}
-			if(evt.keyCode==81 && !this.heroMoveLeftBool)
+			if(self.life>0)
 			{
-				clearInterval(this.heroMoveLeftInter);
-				$('#hero').css('background-position', '64px 64px');
-				this.heroMoveLeftBool=true;
+				$('#hero').css("background-position", self.heroMoveAnime);
 			}
+			if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.fallBool)
+			{
+				Self.HeroCheck.fallBool=false;
+				self.heroMoveJumpBoolInter=false;
+				self.heroMoveJumpBoolAnim=true;
+				self.heroStyleTopVal=self.heroStyleTopVal*(-1);
+			}
+			if(self.heroStyleTop>self.heroFloor)	
+			{
+				self.heroStyleTopI=0;
+				self.heroStyleTop=self.heroFloor+self.heroStyleTopVal;
+				self.heroMoveJumpBool=true;
+				self.heroFloorCompBool=true;
+				self.heroMoveJumpBoolInter=true;
+				self.heroStyleTopVal=self.heroStyleTopVal*(-1);
+				clearInterval(self.heroMoveJumpInter);
+			}
+			self.heroStyleTopI+=1;
+			self.heroStyleTop=self.heroStyleTop+self.heroStyleTopVal;
+			$('#hero').css('top',self.heroStyleTop);
+			Self.HeroCheck.heroMapCheck();
+		},1);
+	},
+	heroMoveStop : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	{
+		if(evt.keyCode==68 && !this.heroMoveRightBool)
+		{
+			clearInterval(this.heroMoveRightInter);
+			$('#hero').css('background-position', '0px 64px');
+			this.heroMoveRightBool=true;
+		}
+		if(evt.keyCode==81 && !this.heroMoveLeftBool)
+		{
+			clearInterval(this.heroMoveLeftInter);
+			$('#hero').css('background-position', '64px 64px');
+			this.heroMoveLeftBool=true;
+		}
 		if(this.life<1)
 		{
 			clearInterval(this.heroMoveRightInter);
@@ -241,14 +216,10 @@ Hero.prototype =
 	heroMove : function()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
 	{
 		var self=this;
-		$(document).bind('keydown', function(evt)
-		{
-			self.heroMoveFunc(evt);
-		});
-		$(document).bind('keyup', function(evt)
-		{
-			self.heroMoveStop(evt);
-		});
+		// $(document).bind('keydown', function(evt)
+		// {
+		// 	self.heroMoveFunc(evt);
+		// });
 	},
 	heroKillMob : function ()
 	{

@@ -40,7 +40,7 @@ Game.prototype=
 		this.Map.backgroundStyle();
 		this.Mob.creatMobs();
 		this.Hero.creatHero();
-		this.Hero.heroMove();
 		this.Interface.gameInterface();
+		this.KeyboardKey.actionKeys();
 	}
 }

@@ -16,7 +16,7 @@ Map.prototype =
 			{
 				self.mapEnd=($('body').css('width').replace(/[^-\d\.]/g, ''))*1;
 			}
-		);			
+		);
 		if(Self.Hero.heroStyleLeft<(Self.Map.mapStart)){$('#hero').css('margin-left', Self.Map.mapEnd+'px');Self.Hero.heroStyleLeft=Self.Map.mapEnd;}
 		if(Self.Hero.heroStyleLeft>(Self.Map.mapEnd)){$('#hero').css('margin-left', Self.Map.mapStart+'px');Self.Hero.heroStyleLeft=Self.Map.mapStart;}
 	},/**/
