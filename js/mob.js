@@ -17,7 +17,7 @@ Mob.prototype =
 	creatMob : function (i)
 	{	
 		var mob = document.createElement('div');
-		mob.setAttribute('id',/*mobName*/'mob'+i);
+		mob.setAttribute('id','mob'+i);
 		mob.setAttribute('class','mob');
 		/*stylisation*/
 		mob.style.position='absolute';

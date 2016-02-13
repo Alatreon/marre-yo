@@ -42,6 +42,8 @@ Map.prototype =
 	},
 	creatMap : function ()
 	{
+		Self.Mob.creatMobs();
+		Self.Hero.creatHero();
 		for(var i=0;i<Self.Map.obstacleArray.length;i++)
 		{
 			if(Self.Map.obstacleArray[i][4]==0)
@@ -51,9 +53,9 @@ Map.prototype =
 			if(Self.Map.obstacleArray[i][4]==1)
 			{
 				this.creatGold(i);
+				this.creatGoldAnim();
 			}
 		}
-		this.creatGoldAnim();
 	},
 	creatObstacles : function (i)
 	{
@@ -104,5 +106,15 @@ Map.prototype =
 	    	}
 	    	$('.gold').css("background-position", -y+"px 0px");
 	    },300);		
-	}
+	}/*,
+	creatObsAnim : function (i)
+	{
+	    var y=0;
+	    var yCheck=1;
+
+	    setInterval(function()
+	    {
+	    	$('#obstacle'+i).css("background-position", -y+"px 0px");
+	    },300);		
+	}*/
 }

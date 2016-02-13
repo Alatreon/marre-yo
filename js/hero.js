@@ -6,17 +6,18 @@ function Hero ()
 	this.heroMoveLeftBool = true;
 	this.heroMoveRightBool = true;
 	this.heroMoveJumpBool = true;
+	/*ANIM*/
 	this.heroMoveAnimeI = 0;
 	this.heroMoveAnimeLeRi= 'right';
 	this.heroMoveAnime = $('#hero').css('background-position');
+	this.heroMoveJumpBoolAnim=true;
+
 	this.heroMoveJumpInter = 'Interval';
 	this.heroMoveLeftInter = 'Interval';
 	this.heroMoveRightInter = 'Interval';
 	this.heroMoveVal =2;
 	this.fallBool=false;
 	this.heroMoveJumpBoolInter = true;
-
-	this.heroMoveJumpBoolAnim=true;
 	this.heroStyleTopI=0;
 	this.heroStyleTopVal=-2;
 	/**/
@@ -31,9 +32,6 @@ function Hero ()
 	this.life=3;
 	this.heroInvincibilityBool=false;
 	this.invincInter=0;
-	/*stopmove*/
-	this.heroMoveBindDown=0;
-	this.heroMoveBindUp=0;
 	/*scoremob*/
 	this.combo=0;
 }
@@ -104,7 +102,7 @@ Hero.prototype =
 			}
 		}
 	},
-	heroLeft : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroLeft : function ()
 	{
 		var self=this;
 		this.heroLeftRight('left');
@@ -124,7 +122,7 @@ Hero.prototype =
 			Self.HeroCheck.heroMapCheck();				
 		},5);
 	},
-	heroRight : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroRight : function ()
 	{
 		var self=this;
 		this.heroLeftRight('right');
@@ -144,7 +142,7 @@ Hero.prototype =
 			Self.HeroCheck.heroMapCheck();
 		},5);
 	},
-	heroJump : function ()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroJump : function ()
 	{
 		var self=this;
 		this.heroFloorCompBool=true;
@@ -193,7 +191,7 @@ Hero.prototype =
 			Self.HeroCheck.heroMapCheck();
 		},1);
 	},
-	heroMoveStop : function (evt)/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
+	heroMoveStop : function (evt)
 	{
 		if(evt.keyCode==68 && !this.heroMoveRightBool)
 		{
@@ -212,14 +210,6 @@ Hero.prototype =
 			clearInterval(this.heroMoveRightInter);
 			clearInterval(this.heroMoveLeftInter);
 		}
-	},
-	heroMove : function()/*Il faut modifier les evenements au clavier dans la page pour les uniformiser et gerer dans les methods de l'objet KeyBoardKey*/
-	{
-		var self=this;
-		// $(document).bind('keydown', function(evt)
-		// {
-		// 	self.heroMoveFunc(evt);
-		// });
 	},
 	heroKillMob : function ()
 	{

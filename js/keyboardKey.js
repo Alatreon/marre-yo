@@ -21,7 +21,6 @@ KeyboardKey.prototype=
 	},
 	keyDown : function (evt)
 	{	
-				console.log(evt.keyCode);
 		switch(evt.keyCode)
 		{
 			case 27:
@@ -46,20 +45,26 @@ KeyboardKey.prototype=
 				}
 			break;
 			case 68:
-				if(this.test!='droite'){
-				this.test='gauche';
-				if(evt.keyCode==68 && Self.Hero.heroMoveRightBool)
-				{
-					Self.Hero.heroRight();				
-				}console.log(this.test)}
+				// if(this.test!='droite')
+				// {
+				// 	this.test='gauche';
+					if(evt.keyCode==68 && Self.Hero.heroMoveRightBool)
+					{
+						Self.Hero.heroRight();				
+					}
+					// console.log(this.test)
+				// }
 			 break;
 			case 81:
-				if(this.test!='gauche'){
-				this.test='droite';
-				if(evt.keyCode==81 && Self.Hero.heroMoveLeftBool)
-				{
-					Self.Hero.heroLeft();				
-				}console.log(this.test)}
+				// if(this.test!='gauche')
+				// {
+					// this.test='droite';
+					if(evt.keyCode==81 && Self.Hero.heroMoveLeftBool)
+					{
+						Self.Hero.heroLeft();				
+					}
+					// console.log(this.test)
+				// }
 			break;
 		}	
 	},

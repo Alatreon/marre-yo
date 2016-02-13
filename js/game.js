@@ -22,6 +22,7 @@ function Game ()
 				[32,24,560,608,1],
 				[32,31,576,150,3],
 				[32,31,576,350,3],
+				[32,31,576,1150,3],
 				[32,31,576,1150,3]
 
 			]);
@@ -38,8 +39,6 @@ Game.prototype=
 	{
 		this.Map.creatMap();
 		this.Map.backgroundStyle();
-		this.Mob.creatMobs();
-		this.Hero.creatHero();
 		this.Interface.gameInterface();
 		this.KeyboardKey.actionKeys();
 	}
