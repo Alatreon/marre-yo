@@ -7,15 +7,15 @@ function Hero ()
 	this.heroMoveRightBool = true;
 	this.heroMoveJumpBool = true;
 	/*ANIM*/
+	this.heroMoveAnimeVal;
+	this.heroMoveAnime=0;
+	this.heroMoveAnimeOption=1;
 	this.heroMoveAnimeI = 0;
-	this.heroMoveAnimeLeRi= 'right';
-	this.heroMoveAnime = $('#hero').css('background-position');
-	this.heroMoveJumpBoolAnim=true;
 
 	this.heroMoveJumpInter = 'Interval';
 	this.heroMoveLeftInter = 'Interval';
 	this.heroMoveRightInter = 'Interval';
-	this.heroMoveVal =2;
+	this.heroMoveVal=2;
 	this.fallBool=false;
 	this.heroMoveJumpBoolInter = true;
 	this.heroStyleTopI=0;
@@ -54,125 +54,148 @@ Hero.prototype =
 	    /*placement*/
 		document.body.appendChild(heroDiv);
    	},
-	heroAnim : function (move1, move2)/*FAIRE UN SWITCH AVEC LES DIFFERENTE ANIM : SAUT,GAUCHE,DROITE,MARCHE,MORT,*/
+	heroAnim : function ()/*Finir les fonctions de cette methode*/
 	{
-		if(!this.heroMoveJumpBoolAnim)
+		console.log(this.heroMoveAnime+' '+this.heroMoveAnimeOption);
+		switch(this.heroMoveAnime)
 		{
-			if(this.heroMoveAnimeLeRi == 'right')
-			{
-				this.heroMoveAnime='-320px 64px';
-			}
-			else
-			{	
-				this.heroMoveAnime='384px 64px'
-			}
+			case 0:
+			/*stop*/
+				/*au sol*/
+				if(this.heroMoveJumpBool){
+					if(this.heroMoveAnimeOption==0)
+					{
+						this.heroMoveAnimeVal='64px 64px';
+					}
+					else if(this.heroMoveAnimeOption==1)
+					{
+						this.heroMoveAnimeVal='0px 64px';
+					}
+				}
+				/*saute*/
+				else if(!this.heroMoveJumpBool)
+				{
+					if (this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
+					}
+					else if (this.heroMoveAnimeOption==1)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
+					}
+				}
+				/*mort*/
+				if(this.heroMoveAnimeOption==2)
+				{
+							this.heroMoveAnimeVal='448px 64px';
+				}
+			break;
+
+			case 1:
+			/*gauche*/			
+				console.log('L'+this.heroMoveAnimeOption);
+				if (this.heroMoveJumpBool)
+				{
+					if(this.heroMoveAnimeOption==0)
+					{
+					 	if(this.heroMoveAnimeI<15)
+					 	{	
+					 		this.heroMoveAnimeVal='128px 64px';	
+					 		this.heroMoveAnimeI+=1;
+					 	}
+					 	if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
+					 	{
+							this.heroMoveAnimeVal='256px 64px';
+					 		this.heroMoveAnimeI+=1;
+					 	}
+					 	if(this.heroMoveAnimeI>29)
+					 	{
+					 		this.heroMoveAnimeI=0;
+					 	}
+					}
+				}
+				else if (!this.heroMoveJumpBool)
+				{
+					if(this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
+					}
+					else if(1)
+					{}
+				}
+			break;
+
+			case 2:		
+			/*droite*/
+				console.log('R'+this.heroMoveAnimeOption);
+				if (this.heroMoveJumpBool)
+				{
+					if(this.heroMoveAnimeOption==0)
+					{
+					 	if(this.heroMoveAnimeI<15)
+					 	{
+					 		this.heroMoveAnimeVal='-64px 64px';
+							this.heroMoveAnimeI+=1;
+						}
+						if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
+						{
+					 		this.heroMoveAnimeVal='-192px 64px';
+							this.heroMoveAnimeI+=1;
+						}
+						if(this.heroMoveAnimeI>29)
+						{
+							this.heroMoveAnimeI=0;
+						}
+					}
+				}
+				else if (!this.heroMoveJumpBool)
+				{
+					if(this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
+					}
+				}
+			break;
 		}
-		else
-		{
-			if(this.heroMoveAnimeI<15)
-			{
-				this.heroMoveAnime=move1;	
-				this.heroMoveAnimeI+=1;
-			}
-			if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
-			{
-				this.heroMoveAnime=move2;
-				this.heroMoveAnimeI+=1;
-			}
-			if(this.heroMoveAnimeI>29)
-			{
-				this.heroMoveAnimeI=0;
-			}
-		}
-	},
-	heroLeftRight : function (v)
-	{
-		if(v=='right')
-		{
-			if(this.heroMoveRightBool)
-			{
-				this.heroMoveAnimeLeRi = 'right';
-			}
-		}
-		if(v=='left')
-		{
-			if(this.heroMoveLeftBool)
-			{
-				this.heroMoveAnimeLeRi = 'left';
-			}
-		}
+		$('#hero').css({"background-position": this.heroMoveAnimeVal});		
 	},
 	heroLeft : function ()
 	{
-		var self=this;
-		this.heroLeftRight('left');
 		this.heroMoveLeftBool = false;
-		this.heroStyleLeft -= this.heroMoveVal;
-		$('#hero').css('margin-left', this.heroSytleLeft);	
+		this.heroMoveAnimeOption=0;
+		this.heroMoveAnime=1;
+		this.heroAnim();
+		this.heroStyleLeft -= this.heroMoveVal;		
+		$('#hero').css({'margin-left': this.heroStyleLeft});
 		Self.HeroCheck.heroMapCheck();
-		this.heroMoveLeftInter = setInterval(function()
-		{
-			self.heroStyleLeft -= self.heroMoveVal;									
-			self.heroAnim('128px 64px','256px 64px');
-			$('#hero').css(
-			{
-				'margin-left': self.heroStyleLeft,
-				"background-position": self.heroMoveAnime
-			});		
-			Self.HeroCheck.heroMapCheck();				
-		},5);
 	},
 	heroRight : function ()
 	{
-		var self=this;
-		this.heroLeftRight('right');
 		this.heroMoveRightBool = false;
+		this.heroMoveAnimeOption=0;
+		this.heroMoveAnime=2;
+		this.heroAnim();
 		this.heroStyleLeft += this.heroMoveVal;
-		$('#hero').css('margin-left', this.heroStyleLeft);
+		$('#hero').css({'margin-left': this.heroStyleLeft});
 		Self.HeroCheck.heroMapCheck();
-		this.heroMoveRightInter = setInterval(function()
-		{
-			self.heroAnim('-64px 64px','-192px 64px');
-			self.heroStyleLeft += self.heroMoveVal;
-			$('#hero').css(
-			{
-				'margin-left': self.heroStyleLeft,
-				'background-position': self.heroMoveAnime
-			});
-			Self.HeroCheck.heroMapCheck();
-		},5);
 	},
 	heroJump : function ()
 	{
 		var self=this;
 		this.heroFloorCompBool=true;
 		this.heroMoveJumpBool=false;
-		this.heroMoveJumpBoolAnim=false;
-		this.heroAnim();
-		Self.HeroCheck.heroMapCheck();
 		this.heroMoveJumpInter = setInterval(
 		function()
 		{
-			if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveLeftBool && self.heroMoveRightBool|| Self.HeroCheck.fallBool)
+			self.heroAnim();
+			if(!this.heroMoveLeftBool && !this.heroMoveLeftBool)
 			{
-				if(self.heroMoveAnimeLeRi=='right')
-				{
-					self.heroMoveAnime='0px 64px';
-				}
-				else
-				{
-					self.heroMoveAnime='64px 64px';
-				}
-			}
-			if(self.life>0)
-			{
-				$('#hero').css("background-position", self.heroMoveAnime);
+				Self.HeroCheck.heroMapCheck();
 			}
 			if(self.heroStyleTopI>self.heroJumpSize && self.heroMoveJumpBoolInter || Self.HeroCheck.fallBool)
 			{
 				Self.HeroCheck.fallBool=false;
 				self.heroMoveJumpBoolInter=false;
-				self.heroMoveJumpBoolAnim=true;
 				self.heroStyleTopVal=self.heroStyleTopVal*(-1);
 			}
 			if(self.heroStyleTop>self.heroFloor)	
@@ -188,22 +211,27 @@ Hero.prototype =
 			self.heroStyleTopI+=1;
 			self.heroStyleTop=self.heroStyleTop+self.heroStyleTopVal;
 			$('#hero').css('top',self.heroStyleTop);
-			Self.HeroCheck.heroMapCheck();
 		},1);
 	},
 	heroMoveStop : function (evt)
 	{
-		if(evt.keyCode==68 && !this.heroMoveRightBool)
-		{
-			clearInterval(this.heroMoveRightInter);
-			$('#hero').css('background-position', '0px 64px');
-			this.heroMoveRightBool=true;
-		}
 		if(evt.keyCode==81 && !this.heroMoveLeftBool)
 		{
 			clearInterval(this.heroMoveLeftInter);
-			$('#hero').css('background-position', '64px 64px');
+			this.heroMoveAnimeOption=0;
+			this.heroMoveAnime=0;
+			this.heroAnim();
+			//$('#hero').css('background-position', '64px 64px');
 			this.heroMoveLeftBool=true;
+		}
+		if(evt.keyCode==68 && !this.heroMoveRightBool)
+		{
+			clearInterval(this.heroMoveRightInter);
+			this.heroMoveAnimeOption=1;
+			this.heroMoveAnime=0;
+			this.heroAnim();
+			//$('#hero').css('background-position', '0px 64px');
+			this.heroMoveRightBool=true;
 		}
 		if(this.life<1)
 		{
@@ -215,9 +243,10 @@ Hero.prototype =
 	{
 		if(this.life>0)
 		{
-			$('#hero').css("background-position","384px 64px")/*.animate(
+			//$('#hero').css("background-position","384px 64px")
+			/*.animate(
 				{top:"-=20"},500,function(){
-				})*/;
+				})*///;
 		}
 	},
 	heroInvincibility : function ()
@@ -247,11 +276,14 @@ Hero.prototype =
 		if(this.life<1)
 		{
 			$(document).off();
-			this.heroMoveStop(0);
-			$('#hero').css("background-position","448px 64px").delay(150).animate(
+			this.heroMoveAnime=0;
+			this.heroMoveAnimeOption=2;
+			this.heroAnim();
+			$('#hero').delay(150).animate(
 				{top:"-=100"},500,function()
-				{
-					$(this).animate({top:"+=300"},600);}
+					{
+						$(this).animate({top:"+=300"},600);
+					}
 				);
 		}
 	}

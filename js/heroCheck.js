@@ -65,7 +65,6 @@ HeroCheck.prototype=
 				Self.Hero.heroMoveVal=2;
 			}
 		}
-		/*chute a modifier Self.Hero.heroJump(0) a supprimer et mieux uniformiser/gerer les appels des touches clavier*/
 		if((hero.y + hero.height) - this.colisionBorder < rect.y && Self.Hero.heroMoveJumpBool && !this.fallBool)
 		{
 			/*droite vers la gauche*/
@@ -98,17 +97,16 @@ HeroCheck.prototype=
 		Self.Map.obstacleArray[i][4]=2;
 		Self.Hero.gold+=1;
 		Self.Interface.gameInterfaceGold();
-		//console.log(Self.Map.obstacleArray+"r"+i);
 	},
 	colMobCheck : function(i,hero,rect)
 	{
-			/*top*/
-			if((hero.y + hero.height) - this.colisionBorder < rect.y)
-			{
-				Self.Map.obstacleArray[i][4]=4;
-				Self.Hero.heroKillMob(i);
-				Self.Mob.mobDie(i);
-			}
+		/*top*/
+		if((hero.y + hero.height) - this.colisionBorder < rect.y)
+		{
+			Self.Map.obstacleArray[i][4]=4;
+			Self.Hero.heroKillMob(i);
+			Self.Mob.mobDie(i);
+		}
 		else
 		{
 			if(!Self.Hero.heroInvincibilityBool)

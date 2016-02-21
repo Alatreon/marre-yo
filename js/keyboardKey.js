@@ -11,7 +11,6 @@ KeyboardKey.prototype=
 		$(document).bind('keydown', function(evt)
 		{
 			self.keyDown(evt);
-			console.log("r")
 		});
 		$(document).bind('keyup', function(evt)
 		{
@@ -19,7 +18,7 @@ KeyboardKey.prototype=
 		});
 
 	},
-	keyDown : function (evt)
+	keyDown : function (evt)/**/
 	{	
 		switch(evt.keyCode)
 		{
@@ -48,10 +47,13 @@ KeyboardKey.prototype=
 				// if(this.test!='droite')
 				// {
 				// 	this.test='gauche';
-					if(evt.keyCode==68 && Self.Hero.heroMoveRightBool)
+				if(evt.keyCode==68 && Self.Hero.heroMoveRightBool)
+				{
+					Self.Hero.heroMoveRightInter = setInterval(function()
 					{
-						Self.Hero.heroRight();				
-					}
+							Self.Hero.heroRight();	
+					},5);			
+				}
 					// console.log(this.test)
 				// }
 			 break;
@@ -61,7 +63,10 @@ KeyboardKey.prototype=
 					// this.test='droite';
 					if(evt.keyCode==81 && Self.Hero.heroMoveLeftBool)
 					{
-						Self.Hero.heroLeft();				
+				Self.Hero.heroMoveLeftInter = setInterval(function()
+				{
+						Self.Hero.heroLeft();
+				},5);
 					}
 					// console.log(this.test)
 				// }
