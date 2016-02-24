@@ -111,10 +111,10 @@ HeroCheck.prototype=
 		{
 			if(!Self.Hero.heroInvincibilityBool)
 			{
-				Self.Hero.life-=1;
-				Self.Interface.gameInterfaceLife();
-				Self.Hero.heroInvincibility();
-				Self.Hero.heroDie();
+					Self.Hero.life-=1;
+					Self.Interface.gameInterfaceLife();
+					Self.Hero.heroInvincibility();
+					Self.Hero.heroDie();
 			}
 		}
 	}

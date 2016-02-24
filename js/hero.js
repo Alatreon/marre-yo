@@ -16,7 +16,6 @@ function Hero ()
 	this.heroMoveLeftInter = 'Interval';
 	this.heroMoveRightInter = 'Interval';
 	this.heroMoveVal=2;
-	this.fallBool=false;
 	this.heroMoveJumpBoolInter = true;
 	this.heroStyleTopI=0;
 	this.heroStyleTopVal=-2;
@@ -54,111 +53,6 @@ Hero.prototype =
 	    /*placement*/
 		document.body.appendChild(heroDiv);
    	},
-	heroAnim : function ()/*Finir les fonctions de cette methode*/
-	{
-		console.log(this.heroMoveAnime+' '+this.heroMoveAnimeOption);
-		switch(this.heroMoveAnime)
-		{
-			case 0:
-			/*stop*/
-				/*au sol*/
-				if(this.heroMoveJumpBool){
-					if(this.heroMoveAnimeOption==0)
-					{
-						this.heroMoveAnimeVal='64px 64px';
-					}
-					else if(this.heroMoveAnimeOption==1)
-					{
-						this.heroMoveAnimeVal='0px 64px';
-					}
-				}
-				/*saute*/
-				else if(!this.heroMoveJumpBool)
-				{
-					if (this.heroMoveAnimeOption==0)
-					{
-						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
-					}
-					else if (this.heroMoveAnimeOption==1)
-					{
-						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
-					}
-				}
-				/*mort*/
-				if(this.heroMoveAnimeOption==2)
-				{
-							this.heroMoveAnimeVal='448px 64px';
-				}
-			break;
-
-			case 1:
-			/*gauche*/			
-				console.log('L'+this.heroMoveAnimeOption);
-				if (this.heroMoveJumpBool)
-				{
-					if(this.heroMoveAnimeOption==0)
-					{
-					 	if(this.heroMoveAnimeI<15)
-					 	{	
-					 		this.heroMoveAnimeVal='128px 64px';	
-					 		this.heroMoveAnimeI+=1;
-					 	}
-					 	if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
-					 	{
-							this.heroMoveAnimeVal='256px 64px';
-					 		this.heroMoveAnimeI+=1;
-					 	}
-					 	if(this.heroMoveAnimeI>29)
-					 	{
-					 		this.heroMoveAnimeI=0;
-					 	}
-					}
-				}
-				else if (!this.heroMoveJumpBool)
-				{
-					if(this.heroMoveAnimeOption==0)
-					{
-						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
-					}
-					else if(1)
-					{}
-				}
-			break;
-
-			case 2:		
-			/*droite*/
-				console.log('R'+this.heroMoveAnimeOption);
-				if (this.heroMoveJumpBool)
-				{
-					if(this.heroMoveAnimeOption==0)
-					{
-					 	if(this.heroMoveAnimeI<15)
-					 	{
-					 		this.heroMoveAnimeVal='-64px 64px';
-							this.heroMoveAnimeI+=1;
-						}
-						if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
-						{
-					 		this.heroMoveAnimeVal='-192px 64px';
-							this.heroMoveAnimeI+=1;
-						}
-						if(this.heroMoveAnimeI>29)
-						{
-							this.heroMoveAnimeI=0;
-						}
-					}
-				}
-				else if (!this.heroMoveJumpBool)
-				{
-					if(this.heroMoveAnimeOption==0)
-					{
-						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
-					}
-				}
-			break;
-		}
-		$('#hero').css({"background-position": this.heroMoveAnimeVal});		
-	},
 	heroLeft : function ()
 	{
 		this.heroMoveLeftBool = false;
@@ -221,7 +115,6 @@ Hero.prototype =
 			this.heroMoveAnimeOption=0;
 			this.heroMoveAnime=0;
 			this.heroAnim();
-			//$('#hero').css('background-position', '64px 64px');
 			this.heroMoveLeftBool=true;
 		}
 		if(evt.keyCode==68 && !this.heroMoveRightBool)
@@ -230,46 +123,37 @@ Hero.prototype =
 			this.heroMoveAnimeOption=1;
 			this.heroMoveAnime=0;
 			this.heroAnim();
-			//$('#hero').css('background-position', '0px 64px');
 			this.heroMoveRightBool=true;
-		}
-		if(this.life<1)
-		{
-			clearInterval(this.heroMoveRightInter);
-			clearInterval(this.heroMoveLeftInter);
 		}
 	},
 	heroKillMob : function ()
 	{
-		if(this.life>0)
-		{
-			//$('#hero').css("background-position","384px 64px")
-			/*.animate(
+		self=this;
+			$('#hero').css("background-position","384px 64px")
+			.animate(
 				{top:"-=20"},500,function(){
-				})*///;
-		}
+					Self.HeroCheck.fallBool=true;
+					self.heroJump();
+				});
 	},
 	heroInvincibility : function ()
 	{
 		self=this;
 		this.heroInvincibilityBool = true;
 		var i = 0;
-	   	if(this.life>0)
-		{
-		   	this.invincInter = setInterval(
-		   	function()
-		   	{
-		   		if(i%2==1){$('#hero').css("opacity","1");}
-		   		if(i%2==0){$('#hero').css("opacity","0.5");}
-		   		if(i>25)
-		   		{
-		   			Self.Hero.heroInvincibilityBool = false;
-		   			$('#hero').css("opacity","1");
-					clearInterval(Self.Hero.invincInter);
-		   		}
-		   		i+=1;
-		   	},50);
-		}
+	   	this.invincInter = setInterval(
+	   	function()
+	   	{
+	   		if(i%2==1){$('#hero').css("opacity","1");}
+	   		if(i%2==0){$('#hero').css("opacity","0.5");}
+	   		if(i>25)
+	   		{
+	   			Self.Hero.heroInvincibilityBool = false;
+	   			$('#hero').css("opacity","1");
+				clearInterval(Self.Hero.invincInter);
+	   		}
+	   		i+=1;
+	   	},50);
 	},
 	heroDie : function ()
 	{
@@ -286,5 +170,113 @@ Hero.prototype =
 					}
 				);
 		}
+	},
+	heroAnim : function ()
+	{
+		console.log(this.heroMoveAnime+' '+this.heroMoveAnimeOption);
+		switch(this.heroMoveAnime)
+		{
+			case 0:
+			/*stop*/
+				/*au sol*/
+				if(this.heroMoveJumpBool){
+					if(this.heroMoveAnimeOption==0)
+					{
+						this.heroMoveAnimeVal='64px 64px';
+					}
+					else if(this.heroMoveAnimeOption==1)
+					{
+						this.heroMoveAnimeVal='0px 64px';
+					}
+				}
+				/*saute*/
+				else if(!this.heroMoveJumpBool)
+				{
+					if (this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
+					}
+					else if (this.heroMoveAnimeOption==1)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
+					}
+				}
+				/*mort*/
+				if(this.heroMoveAnimeOption==2)
+				{
+					this.heroMoveAnimeVal='448px 64px';
+				}
+			break;
+
+			case 1:
+			/*gauche*/			
+				console.log('L'+this.heroMoveAnimeOption);
+				if (this.heroMoveJumpBool)
+				{
+				/*au sol*/
+					if(this.heroMoveAnimeOption==0)
+					{
+					 	if(this.heroMoveAnimeI<15)
+					 	{	
+					 		this.heroMoveAnimeVal='128px 64px';	
+					 		this.heroMoveAnimeI+=1;
+					 	}
+					 	if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
+					 	{
+							this.heroMoveAnimeVal='256px 64px';
+					 		this.heroMoveAnimeI+=1;
+					 	}
+					 	if(this.heroMoveAnimeI>29)
+					 	{
+					 		this.heroMoveAnimeI=0;
+					 	}
+					}
+				}
+				else if (!this.heroMoveJumpBool)
+				{
+				/*saute*/
+					if(this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='64px 64px';}else{this.heroMoveAnimeVal='384px 64px';}
+					}
+				}
+			break;
+
+			case 2:		
+			/*droite*/
+				console.log('R'+this.heroMoveAnimeOption);
+				if (this.heroMoveJumpBool)
+				{
+				/*au sol*/
+					if(this.heroMoveAnimeOption==0)
+					{
+					 	if(this.heroMoveAnimeI<15)
+					 	{
+					 		this.heroMoveAnimeVal='-64px 64px';
+							this.heroMoveAnimeI+=1;
+						}
+						if(this.heroMoveAnimeI>14 && this.heroMoveAnimeI<30)
+						{
+					 		this.heroMoveAnimeVal='-192px 64px';
+							this.heroMoveAnimeI+=1;
+						}
+						if(this.heroMoveAnimeI>29)
+						{
+							this.heroMoveAnimeI=0;
+						}
+					}
+				}
+				else if (!this.heroMoveJumpBool)
+				{
+				/*saute*/
+					if(this.heroMoveAnimeOption==0)
+					{
+						if(this.heroStyleTopVal==2){this.heroMoveAnimeVal='0px 64px';}else{this.heroMoveAnimeVal='-320px 64px';}
+					}
+				}
+			break;
+		}
+		/*style*/
+		$('#hero').css({"background-position": this.heroMoveAnimeVal});		
 	}
 }
